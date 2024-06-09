@@ -1,10 +1,10 @@
 package tfc.grupo6.dam.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import tfc.grupo6.dam.exception.exceptions.ResourceNotFoundException;
 import tfc.grupo6.dam.model.entities.Enfermedad;
 import tfc.grupo6.dam.service.EnfermedadService;
 
@@ -32,18 +32,14 @@ public class EnfermedadController {
     @GetMapping("/{id}")
     public ResponseEntity<Enfermedad> getEnfermedadById(@PathVariable int id) {
         Enfermedad enfermedad = enfermedadService.findById(id);
-        if (enfermedad == null) {
-            throw new ResourceNotFoundException("Enfermedad not found with id " + id);
-        }
+
         return ResponseEntity.ok(enfermedad);
     }
 
     @GetMapping("/buscar")
     public ResponseEntity<List<Enfermedad>> getEnfermedadesByNombre(@RequestParam String nombre) {
         List<Enfermedad> enfermedades = enfermedadService.findByNombre(nombre);
-        if (enfermedades.isEmpty()) {
-            throw new ResourceNotFoundException("No Enfermedades found with name " + nombre);
-        }
+
         return ResponseEntity.ok(enfermedades);
     }
 
@@ -51,9 +47,7 @@ public class EnfermedadController {
     public ResponseEntity<Enfermedad> updateEnfermedad(@PathVariable int id, @RequestBody Enfermedad enfermedad) {
         enfermedad.setId(id);
         Enfermedad updatedEnfermedad = enfermedadService.update(enfermedad);
-        if (updatedEnfermedad == null) {
-            throw new ResourceNotFoundException("Enfermedad not found with id " + id);
-        }
+
         return ResponseEntity.ok(updatedEnfermedad);
     }
 }
